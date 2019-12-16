@@ -75,22 +75,22 @@ class DCTTest extends FlatSpec with ChiselScalatestTester {
         Seq[HardDoubleBinaryOpBundle],
         Seq[HardDoubleBinaryOpBundle]
     ) = {
-      val cicj = (0 until m)
+      val factors = (0 until m)
         .map(
           k =>
             (0 until n).map { l =>
               toHardDouble(
-                Math.cos((2 * k + 1) * i * math.Pi / (2 * m)) *
+                math.cos((2 * k + 1) * i * math.Pi / (2 * m)) *
                   math.cos((2 * l + 1) * j * math.Pi / (2 * n))
               )
             }
         )
         .flatten
 
-      val mults = (io.matrix.toSeq.flatten zip cicj zip multipliers).map {
-        case ((m, cicj), mult) =>
+      val mults = (io.matrix.toSeq.flatten zip factors zip multipliers).map {
+        case ((m, factor), mult) =>
           mult.a := m
-          mult.b := cicj
+          mult.b := factor
           mult.out
       }
 
@@ -110,7 +110,7 @@ class DCTTest extends FlatSpec with ChiselScalatestTester {
           math.sqrt(2) / math.sqrt(m)
         }
       } * {
-        if (i === 0) {
+        if (j === 0) {
           1.0 / math.sqrt(n)
         } else {
           math.sqrt(2) / math.sqrt(n)
@@ -136,6 +136,12 @@ class DCTTest extends FlatSpec with ChiselScalatestTester {
       }._3.sliding(n, n).map(VecInit(_)).toSeq
   }
 
+  /**
+   * 2x2 expected output:
+   * 
+   * 509.999969      -0.322307
+   * -0.322307       0.000206
+   */
   it should "do a DCT" in {
     test(new DCT(8, 8))
       .withAnnotations(Seq(VerilatorBackendAnnotation, WriteVcdAnnotation)) {
