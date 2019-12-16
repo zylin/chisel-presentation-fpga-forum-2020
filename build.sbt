@@ -27,7 +27,7 @@ def javacOptionsVersion(scalaVersion: String): Seq[String] = {
 }
 
 organization := "edu.berkeley.cs"
-name := "chiseltest"
+name := "chiselpresentation"
 
 version := "0.2-SNAPSHOT"
 
@@ -47,47 +47,11 @@ libraryDependencies ++= Seq(
 
 testFrameworks += new TestFramework("utest.runner.Framework")
 
-publishMavenStyle := true
-
-publishArtifact in Test := false
-pomIncludeRepository := { x => false }
-
-pomExtra := (
-<url>http://chisel.eecs.berkeley.edu/</url>
-<licenses>
-  <license>
-    <name>BSD-style</name>
-    <url>http://www.opensource.org/licenses/bsd-license.php</url>
-    <distribution>repo</distribution>
-  </license>
-</licenses>
-<scm>
-  <url>https://github.com/ucb-bar/chisel-testers2.git</url>
-  <connection>scm:git:github.com/ucb-bar/chisel-testers2.git</connection>
-</scm>
-<developers>
-  <developer>
-    <id>ducky64</id>
-    <name>Richard Lin</name>
-  </developer>
-</developers>
-)
-
-publishTo := {
-  val v = version.value
-  val nexus = "https://oss.sonatype.org/"
-  if (v.trim.endsWith("SNAPSHOT")) {
-    Some("snapshots" at nexus + "content/repositories/snapshots")
-  }
-  else {
-    Some("releases" at nexus + "service/local/staging/deploy/maven2")
-  }
-}
 
 // Provide a managed dependency on X if -DXVersion="" is supplied on the command line.
 val defaultVersions = Seq(
-  "chisel3" -> "3.3-SNAPSHOT",
-  "treadle" -> "1.2-SNAPSHOT"
+  "chisel3" -> "3.2.0",
+  "chisel-testers2" -> "0.1.1",
 )
 
 libraryDependencies ++= defaultVersions.map { case (dep, ver) =>

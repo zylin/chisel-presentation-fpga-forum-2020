@@ -1,0 +1,14 @@
+set_global_assignment -name TOP_LEVEL_ENTITY FIRFilter
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 19.3.0
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "08:27:22  DECEMBER 16, 2019"
+set_global_assignment -name LAST_QUARTUS_VERSION "19.3.0 Pro Edition"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP "-40"
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 100
+set_global_assignment -name DEVICE 10AX115H1F34I1SG
+set_global_assignment -name FAMILY "Arria 10"
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name VERILOG_FILE FIRFilter.v
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_instance_assignment -name VIRTUAL_PIN ON -to io_* -entity FIRFilter

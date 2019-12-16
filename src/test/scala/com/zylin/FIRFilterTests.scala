@@ -1,21 +1,21 @@
 // See LICENSE for license details.
 
-package chiseltest.integeration
+package chisel3.tester.integeration
 
 import org.scalatest._
 
 import chisel3._
-import chiseltest._
-import chiseltest.internal.WriteVcdAnnotation
-import chiseltest.internal.{VerilatorBackendAnnotation}
+import chisel3.tester._
+import chisel3.tester.internal.WriteVcdAnnotation
+import chisel3.tester.internal.{VerilatorBackendAnnotation}
 
-import chiseltest.experimental.TestOptionBuilder._
-import chiseltest.experimental.UncheckedClockPoke._
-import chiseltest.internal.{TreadleBackendAnnotation, VerilatorBackendAnnotation}
+import chisel3.tester.experimental.TestOptionBuilder._
+import chisel3.tester.experimental.UncheckedClockPoke._
+import chisel3.tester.internal.{TreadleBackendAnnotation, VerilatorBackendAnnotation}
 import chisel3.util._
 import org.scalatest._
 
-class FirFilter(bitWidth: Int, coeffs: Seq[Int], multiplierPipelineStages: Int = 0, addPipelineStages: Int = 0)
+class FIRFilter(bitWidth: Int, coeffs: Seq[Int], multiplierPipelineStages: Int = 0, addPipelineStages: Int = 0)
     extends Module {
   val io = IO(new Bundle {
     val in = Input(UInt(bitWidth.W))
@@ -32,11 +32,11 @@ class FirFilter(bitWidth: Int, coeffs: Seq[Int], multiplierPipelineStages: Int =
     .reduce((a, b) => ShiftRegister(a + b, addPipelineStages))
 }
 
-class FirFilterTest extends FlatSpec with ChiselScalatestTester with Matchers {
+class FIRFilterTest extends FlatSpec with ChiselScalatestTester with Matchers {
   behavior of "FIR filter unit-test"
 
   it should "run FIR filter without pipelining" in {
-    test(new FirFilter(16, Seq(1, 2, 3, 4))).withAnnotations(Seq(VerilatorBackendAnnotation, WriteVcdAnnotation)) {
+    test(new FIRFilter(16, Seq(1, 2, 3, 4))).withAnnotations(Seq(VerilatorBackendAnnotation, WriteVcdAnnotation)) {
       dut =>
         dut.io.in.poke(0.U)
         dut.clock.step(dut.zs.length)
@@ -50,7 +50,7 @@ class FirFilterTest extends FlatSpec with ChiselScalatestTester with Matchers {
   }
 
   it should "run FIR filter with pipeline stages" in {
-    test(new FirFilter(16, Seq(1, 2, 3, 4), multiplierPipelineStages=3, addPipelineStages=1))
+    test(new FIRFilter(16, Seq(1, 2, 3, 4), multiplierPipelineStages=3, addPipelineStages=1))
        .withAnnotations(Seq(VerilatorBackendAnnotation, WriteVcdAnnotation)) {
       dut =>
         dut.io.in.poke(0.U)
